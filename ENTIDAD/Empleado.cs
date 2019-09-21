@@ -23,7 +23,7 @@ namespace ENTIDAD
         public int DepartamentoId { get; set; }
         public int ProyectoId { get; set; }
     
-        public virtual Proyecto Proyecto { get; set; }
         public virtual Departamento Departamento { get; set; }
+        public virtual Proyecto Proyecto { get; set; }
     }
 }

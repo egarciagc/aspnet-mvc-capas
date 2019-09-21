@@ -26,7 +26,7 @@ namespace ENTIDAD
         }
     
         public virtual DbSet<Empleado> Empleado { get; set; }
-        public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<Departamento> Departamento { get; set; }
+        public virtual DbSet<Proyecto> Proyecto { get; set; }
     }
 }
