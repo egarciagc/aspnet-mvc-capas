@@ -31,8 +31,8 @@
           </Key>
           <Property Name="ProyectoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="NombreProyecto" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="FechaInicio" Type="datetime" />
-          <Property Name="FechaFin" Type="datetime" />
+          <Property Name="FechaInicio" Type="datetime" Nullable="false" />
+          <Property Name="FechaFin" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Empleado_Departamento">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
@@ -129,8 +129,8 @@
           </Key>
           <Property Name="ProyectoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NombreProyecto" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="FechaInicio" Type="DateTime" Precision="3" />
-          <Property Name="FechaFin" Type="DateTime" Precision="3" />
+          <Property Name="FechaInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FechaFin" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Empleado" Relationship="PROYECTOSDBModel.FK_Empleado_Proyecto" FromRole="Proyecto" ToRole="Empleado" />
         </EntityType>
         <Association Name="FK_Empleado_Proyecto">
