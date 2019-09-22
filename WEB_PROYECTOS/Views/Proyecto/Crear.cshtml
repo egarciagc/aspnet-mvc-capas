@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <form action="@Url.Action("Crear", "Proyecto")" method="post" id="frmProyecto">
     @Html.AntiForgeryToken()
 
@@ -51,21 +50,43 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")    
     <script>
         $("#frmProyecto").submit(function (event) {
             event.preventDefault(); //prevent default action
+
+            var nombre = $("#NombreProyecto").val();
+            var fechaInicio = $("#FechaInicio").val();
+            var fechaFin = $("#FechaFin").val();
+
+            if ($.trim(nombre) == "") {
+                alert("Debe ingresar el nombre del proyecto!!!");
+                return;
+            }
+
+            if (fechaInicio == "" || fechaFin == "") {
+                alert("Debe ingresar la Fecha de Inicio y la Fecha Fin!!!");
+                return;
+            }
+
+            if (ValidarFechas(fechaInicio, fechaFin) == false) {
+                alert("La Fecha Fin no puede ser menor a la Fecha de Inicio!!!");
+                return;
+            }
 
             var post_url = $(this).attr("action"); //get form action url
             var request_method = $(this).attr("method"); //get form GET/POST method
             var form_data = $(this).serializeArray(); //Encode form elements for submission
             console.log(form_data);
+
+            LoadingOverlayShow("#frmProyecto");
             $.ajax({
                 url: post_url,
                 type: request_method,
                 data: form_data
             }).done(function (response) { //
                 console.log(response);
+                LoadingOverlayHide("#frmProyecto");
                 if (response.ok) {
                     alert("Proyecto creado correctamente.");
                     window.location = response.toRedirect;
@@ -74,6 +95,7 @@
                     alert(response.msg);
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
+                LoadingOverlayHide("#frmProyecto");
                 //object jqXHR: es un objeto jqXHR que contiene todos los datos de la solicitud Ajax realizada,
                 //    incluyendo la propiedad jqXHR.status que contiene, entre otros posibles, el código de estado HTTP de la respuesta.
                 //string textStatus: texto que describe el tipo de error, que puede ser, además de null,
@@ -82,7 +104,5 @@
                 //    Por ejemplo, para un error HTTP 404, errorThrown es «Not found»; para error un HTTP 500 es «Internal Server Error».
             });
         });
-
-        
     </script>
 }
