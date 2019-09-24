@@ -10,25 +10,37 @@
 <p>
     @Html.ActionLink("Crear Departamento", "Crear", "Departamento")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Nombre de Departamento
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreDepartamento)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Editar", new { id=item.DepartamentoId }) |
-            @Html.ActionLink("Detalles", "GetDepartamento", new { id=item.DepartamentoId }) |
-            @Html.ActionLink("Eliminar", "Eliminar", new { id=item.DepartamentoId })
-        </td>
-    </tr>
-}
-
+<table class="table" id="tablaDptos">
+    <thead>
+        <tr>
+            <th>
+                Nombre de Departamento
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreDepartamento)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Editar", new { id = item.DepartamentoId }) |
+                    @Html.ActionLink("Detalles", "GetDepartamento", new { id = item.DepartamentoId }) |
+                    @Html.ActionLink("Eliminar", "Eliminar", new { id = item.DepartamentoId })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section scripts{
+    <script>
+        $('#tablaDptos').DataTable({
+            "pageLength": 5,
+            lengthMenu: [5, 10, 20, 50, 100, 200, 500],
+        });
+    </script>
+}
