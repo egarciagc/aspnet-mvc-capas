@@ -248,6 +248,8 @@
     <Content Include="Views\Departamento\Eliminar.cshtml" />
     <Content Include="Views\Proyecto\Index.cshtml" />
     <Content Include="Views\Proyecto\Crear.cshtml" />
+    <Content Include="Views\Proyecto\Detalles.cshtml" />
+    <Content Include="Views\Proyecto\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

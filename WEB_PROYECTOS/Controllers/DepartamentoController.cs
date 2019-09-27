@@ -9,8 +9,9 @@ using System.Web.Mvc;
 
 namespace WEB_PROYECTOS.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartamentoController : Controller
-    {
+    {        
         public ActionResult Index()
         {
             var dptos = DepartamentoCN.ListarDepartamentos();

@@ -1,0 +1,41 @@
+﻿@model ENTIDAD.Proyecto
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Detalles del Proyecto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Nombre del Proyecto:
+        </dt>
+
+        <dd>
+            @Model.NombreProyecto
+        </dd>
+
+        <dt>
+            Fecha de Inicio:
+        </dt>
+
+        <dd>
+            @Model.FechaInicio.ToShortDateString()
+        </dd>
+
+        <dt>
+            Fecha Fin:
+        </dt>
+
+        <dd>
+            @Model.FechaFin.ToShortDateString()
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Editar", "Proyecto", new { id = Model.ProyectoId })">Editar</a>
+    <a class="btn btn-default" href="@Url.Action("Index", "Proyecto")">Regresar</a>
+</p>
