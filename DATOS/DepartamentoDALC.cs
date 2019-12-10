@@ -22,6 +22,7 @@ namespace DATOS
         {
             using (var db = new ProyectosContext())
             {
+                db.Configuration.LazyLoadingEnabled = false;
                 return db.Departamento.ToList();
             }
         }

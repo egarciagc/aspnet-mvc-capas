@@ -1,0 +1,105 @@
+﻿@model ENTIDAD.Empleado
+
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="@Url.Action("Crear", "Empleado")" method="post" id="frmEmpleado">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Crear Nuevo Empleado</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Nombres</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="Nombres" placeholder="Ingrese nombres del Empleado" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Apellidos</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="Apellidos" placeholder="Ingrese Apellidos del Empleado" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Email</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="Email" placeholder="Ingrese Email del Empleado" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Dirección</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="Direccion" placeholder="Ingrese Dirección del Empleado" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Celular</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="Celular" placeholder="Ingrese Celular del Empleado" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Departamentos</label>
+            <div class="col-md-10">
+                <select class="form-control" id="DepartamentoId" name="DepartamentoId">
+                    <option value="">Seleccione...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear Empleado" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")    
+    <script>
+        getDepartamentos();       
+
+        $("#frmEmpleado").submit(function (event) {
+            event.preventDefault(); //prevent default action
+
+            var dptoId = $("#DepartamentoId").val();
+            if (dptoId == "") {
+                alert("Debe escoger un departamento!!!");
+                return;
+            }                        
+
+            var post_url = $(this).attr("action"); //get form action url
+            var request_method = $(this).attr("method"); //get form GET/POST method
+            var form_data = $(this).serializeArray(); //Encode form elements for submission
+            console.log(form_data);
+
+            LoadingOverlayShow("#frmEmpleado");
+            $.ajax({
+                url: post_url,
+                type: request_method,
+                data: form_data
+            }).done(function (response) { //
+                console.log(response);
+                LoadingOverlayHide("#frmEmpleado");
+                if (response.ok) {
+                    alert("Empleado creado correctamente.");
+                    window.location = response.toRedirect;
+                }
+                else {
+                    alert(response.msg);
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                LoadingOverlayHide("#frmEmpleado");
+            });
+        });
+    </script>
+}

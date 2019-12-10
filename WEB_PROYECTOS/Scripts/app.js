@@ -19,3 +19,21 @@ function ValidarFechas(dateIni, dateFin) {
     else
         return true;
 } 
+
+function getDepartamentos(myCallback) {
+    $.ajax({
+        type: "GET",
+        url: '/departamento/getdepartamentos',
+        dataType: "json",
+        success: function (result) {
+            $.each(result.data, function (key, item) {
+                $("#DepartamentoId").append('<option value=' + item.DepartamentoId + '>' + item.NombreDepartamento + '</option>');
+            });
+
+            return myCallback(result.data);
+        },
+        error: function (data) {
+            alert('error');
+        }
+    });
+}

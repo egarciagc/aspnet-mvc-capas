@@ -26,7 +26,17 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
                     <li>@Html.ActionLink("Departamentos", "Index", "Departamento")</li>
-                    <li>@Html.ActionLink("Proyectos", "Index", "Proyecto")</li>
+                    <li>@Html.ActionLink("Empleados", "Index", "Empleado")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Proyectos <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">@Html.ActionLink("CRUD Proyectos", "Index", "Proyecto")</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">@Html.ActionLink("Asignar Proyectos", "Index", "Proyecto")</a></li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
