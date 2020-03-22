@@ -36,5 +36,30 @@ namespace NEGOCIO
         {
             obj.Eliminar(id);
         }
+
+        public static bool ExisteAsignacion(int proyectoId, int empleadoId)
+        {
+            return obj.ExisteAsignacion(proyectoId, empleadoId);
+        }
+
+        public static bool EsProyectoActivo(int proyectoId)
+        {
+            return obj.EsProyectoActivo(proyectoId);
+        }
+
+        public static void AsignarProyecto(int proyectoId, int empleadoId)
+        {
+            obj.AsignarProyecto(proyectoId, empleadoId);
+        }
+
+        public static List<ProyectoEmpleadoCE> ListarAsignaciones()
+        {
+            return obj.ListarAsignaciones();
+        }
+
+        public static void Eliminarasignacion(int proyectoId, int empleadoId)
+        {
+            obj.Eliminarasignacion(proyectoId, empleadoId);
+        }
     }
 }

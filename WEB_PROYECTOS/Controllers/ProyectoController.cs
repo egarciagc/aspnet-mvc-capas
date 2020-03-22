@@ -84,5 +84,58 @@ namespace WEB_PROYECTOS.Controllers
                 return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult ListarProyectos()
+        {
+            try
+            {
+                var lista = ProyectoCN.ListarProyectos();
+                return Json(new { data = lista }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult AsignarProyecto()
+        {
+            return View(ProyectoCN.ListarAsignaciones());
+        }
+
+        [HttpPost]
+        public ActionResult AsignarProyecto(int proyectoId, int empleadoId)
+        {
+            try
+            {
+                if (ProyectoCN.ExisteAsignacion(proyectoId, empleadoId))
+                    return Json(new { ok = false, msg = "Ya existe una relación entre este proyecto y el empleado" });
+
+                if(!ProyectoCN.EsProyectoActivo(proyectoId))
+                    return Json(new { ok = false, msg = "El proyecto ya no se encuentra activo." });
+
+
+                ProyectoCN.AsignarProyecto(proyectoId, empleadoId);
+                return Json(new { ok = true, toRedirect = Url.Action("AsignarProyecto") }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EliminarAsignacion(int proyectoId, int empleadoId)
+        {
+            try
+            {
+                ProyectoCN.Eliminarasignacion(proyectoId, empleadoId);
+                return Json(new { ok = true, toRedirect = Url.Action("AsignarProyecto") }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
