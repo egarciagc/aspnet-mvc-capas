@@ -14,8 +14,16 @@ namespace WEB_PROYECTOS.Controllers
         // GET: Proyecto
         public ActionResult Index()
         {
-            var proyectos = ProyectoCN.ListarProyectos();
-            return View(proyectos);
+            try
+            {
+                var proyectos = ProyectoCN.ListarProyectos();
+                return View(proyectos);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         public ActionResult Crear()

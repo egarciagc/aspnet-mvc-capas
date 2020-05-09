@@ -12,6 +12,8 @@ namespace ENTIDAD
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ProyectosContext : DbContext
     {
@@ -29,5 +31,14 @@ namespace ENTIDAD
         public virtual DbSet<Proyecto> Proyecto { get; set; }
         public virtual DbSet<ProyectoEmpleado> ProyectoEmpleado { get; set; }
         public virtual DbSet<Empleado> Empleado { get; set; }
+    
+        public virtual ObjectResult<spListarProyectos_Result> spListarProyectos(Nullable<int> proyectoId)
+        {
+            var proyectoIdParameter = proyectoId.HasValue ?
+                new ObjectParameter("ProyectoId", proyectoId) :
+                new ObjectParameter("ProyectoId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spListarProyectos_Result>("spListarProyectos", proyectoIdParameter);
+        }
     }
 }

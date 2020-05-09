@@ -16,7 +16,7 @@ namespace ENTIDAD
     {
         public int ProyectoId { get; set; }
         public int EmpleadoId { get; set; }
-        public Nullable<System.DateTime> FechaAlta { get; set; }
+        public System.DateTime FechaAlta { get; set; }
     
         public virtual Proyecto Proyecto { get; set; }
         public virtual Empleado Empleado { get; set; }

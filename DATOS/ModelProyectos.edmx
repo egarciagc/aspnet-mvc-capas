@@ -40,7 +40,7 @@
           </Key>
           <Property Name="ProyectoId" Type="int" Nullable="false" />
           <Property Name="EmpleadoId" Type="int" Nullable="false" />
-          <Property Name="FechaAlta" Type="datetime" />
+          <Property Name="FechaAlta" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Empleado_Departamento">
           <End Role="Departamento" Type="Self.Departamento" Multiplicity="1" />
@@ -78,6 +78,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="spListarProyectos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProyectoId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="PROYECTOSDBModelStoreContainer">
           <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
@@ -101,6 +104,9 @@
     <edmx:ConceptualModels>
       <Schema Namespace="PROYECTOSDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ProyectosContext" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="spListarProyectos" ReturnType="Collection(PROYECTOSDBModel.spListarProyectos_Result)">
+          <Parameter Name="ProyectoId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="Departamento" EntityType="PROYECTOSDBModel.Departamento" />
           <EntitySet Name="Proyecto" EntityType="PROYECTOSDBModel.Proyecto" />
           <EntitySet Name="ProyectoEmpleado" EntityType="PROYECTOSDBModel.ProyectoEmpleado" />
@@ -118,6 +124,12 @@
             <End Role="ProyectoEmpleado" EntitySet="ProyectoEmpleado" />
           </AssociationSet>
         </EntityContainer>
+        <ComplexType Name="spListarProyectos_Result">
+          <Property Type="Int32" Name="ProyectoId" Nullable="false" />
+          <Property Type="String" Name="NombreProyecto" Nullable="false" MaxLength="150" />
+          <Property Type="DateTime" Name="FechaInicio" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FechaFin" Nullable="false" Precision="23" />
+        </ComplexType>
         <EntityType Name="Departamento">
           <Key>
             <PropertyRef Name="DepartamentoId" />
@@ -143,7 +155,7 @@
           </Key>
           <Property Name="ProyectoId" Type="Int32" Nullable="false" />
           <Property Name="EmpleadoId" Type="Int32" Nullable="false" />
-          <Property Name="FechaAlta" Type="DateTime" Precision="3" />
+          <Property Name="FechaAlta" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Proyecto" Relationship="PROYECTOSDBModel.FK_ProyectoEmpleado_Proyecto" FromRole="ProyectoEmpleado" ToRole="Proyecto" />
           <NavigationProperty Name="Empleado" Relationship="PROYECTOSDBModel.FK_ProyectoEmpleado_Empleado" FromRole="ProyectoEmpleado" ToRole="Empleado" />
         </EntityType>
@@ -203,6 +215,16 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="PROYECTOSDBModelStoreContainer" CdmEntityContainer="ProyectosContext">
+          <FunctionImportMapping FunctionImportName="spListarProyectos" FunctionName="PROYECTOSDBModel.Store.spListarProyectos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PROYECTOSDBModel.spListarProyectos_Result">
+                <ScalarProperty Name="ProyectoId" ColumnName="ProyectoId" />
+                <ScalarProperty Name="NombreProyecto" ColumnName="NombreProyecto" />
+                <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
+                <ScalarProperty Name="FechaFin" ColumnName="FechaFin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="Departamento">
             <EntityTypeMapping TypeName="PROYECTOSDBModel.Departamento">
               <MappingFragment StoreEntitySet="Departamento">

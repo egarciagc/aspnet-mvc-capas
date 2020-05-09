@@ -1,6 +1,8 @@
 ﻿using ENTIDAD;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,9 +24,14 @@ namespace DATOS
         {
             using (var db = new ProyectosContext())
             {
-                db.Configuration.LazyLoadingEnabled = false;
+                //db.Configuration.LazyLoadingEnabled = false;
                 //var toDay = DateTime.Now.Date;
                 //return db.Proyecto.Where(p => p.FechaFin > toDay).ToList();
+
+                //uso de procedimiento almacenado
+                //var dataForma1 = db.spListarProyectos(1).ToList();
+                //return dataForma1;
+
                 return db.Proyecto.ToList();
             }
         }
@@ -34,6 +41,13 @@ namespace DATOS
             using (var db = new ProyectosContext())
             {
                 //return db.Proyecto.Where(p => p.ProyectoId == id).FirstOrDefault();
+
+                //uso de procedimientos almacenados
+                //var miProyecto = db.Database.SqlQuery<Proyecto>("spObtenerProyecto @ProyectoId",
+                //    new SqlParameter("@ProyectoId", id)
+                //).FirstOrDefault();
+                //return miProyecto;
+
                 return db.Proyecto.Find(id);
             }
         }
