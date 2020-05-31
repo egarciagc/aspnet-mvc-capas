@@ -24,7 +24,7 @@ namespace DATOS
         {
             using (var db = new ProyectosContext())
             {
-                //db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.LazyLoadingEnabled = false;
                 //var toDay = DateTime.Now.Date;
                 //return db.Proyecto.Where(p => p.FechaFin > toDay).ToList();
 

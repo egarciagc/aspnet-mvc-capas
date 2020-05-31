@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "Reporte Empleados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <br />
+    <div class="form-group">
+        <div class="col-md-6">
+            <label>Departamento:</label>
+            <select class="form-control" id="DepartamentoId">
+                <option value="">Seleccione...</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<br />
+<button class="btn btn-primary" onclick="Descargar()">
+    <i class="glyphicon glyphicon-download"></i> Descargar Reporte
+</button>
+
+<button class="btn btn-success" onclick="Mostrar()">
+    <i class="glyphicon glyphicon-eye-open"></i> Mostrar Reporte
+</button>
+
+<hr />
+
+<iframe id="frmEmpleado" width="100%" height="550px" frameborder="0" scrolling="no"></iframe>
+
+@section scripts{
+    <script>
+        getDepartamentos();
+        var dpto = $("#DepartamentoId");
+
+        function Descargar() {
+            if (dpto.val() == "") {
+                alert("Debe seleccionar un departamento!!!");
+                return;
+            }
+            var data = {
+                codigo: dpto.val(),
+                algo: "elvin"
+            };
+            var params = jQuery.param(data);
+            window.open("/empleado/descargarreporteempleado?" + params);
+        }
+
+        function Mostrar() {
+            if (dpto.val() == "") {
+                alert("Debe seleccionar un departamento!!!");
+                return;
+            }
+            var data = {
+                codigo: dpto.val(),
+                algo: "mostrar"
+            };
+            var params = jQuery.param(data);
+            $("#frmEmpleado")
+                .attr("src", "/empleado/descargarreporteempleado?" + params)
+                .load();
+        }
+
+    </script>
+}
+
