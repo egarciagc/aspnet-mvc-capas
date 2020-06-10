@@ -1,7 +1,10 @@
-﻿using ENTIDAD;
+﻿using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+using ENTIDAD;
 using NEGOCIO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -23,7 +26,7 @@ namespace WEB_PROYECTOS.Controllers
             {
                 return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
 
         public ActionResult Crear()
@@ -119,7 +122,7 @@ namespace WEB_PROYECTOS.Controllers
                 if (ProyectoCN.ExisteAsignacion(proyectoId, empleadoId))
                     return Json(new { ok = false, msg = "Ya existe una relación entre este proyecto y el empleado" });
 
-                if(!ProyectoCN.EsProyectoActivo(proyectoId))
+                if (!ProyectoCN.EsProyectoActivo(proyectoId))
                     return Json(new { ok = false, msg = "El proyecto ya no se encuentra activo." });
 
 
@@ -143,6 +146,75 @@ namespace WEB_PROYECTOS.Controllers
             catch (Exception ex)
             {
                 return Json(new { ok = false, msg = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult RptProyecto()
+        {
+            return View();
+        }
+
+        public ActionResult DescargarReporteProyectos()
+        {
+            try
+            {
+                var proyectos = ProyectoCN.ListarProyectos();
+
+                var rptH = new ReportClass();
+                rptH.FileName = Server.MapPath("/Reportes/ProyectosListas.rpt");
+                rptH.Load();
+
+                rptH.SetDataSource(proyectos);
+
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+
+                //En PDF
+                Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
+                rptH.Dispose();
+                rptH.Close();
+                return new FileStreamResult(stream, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public ActionResult RptAsignacion()
+        {
+            return View();
+        }
+
+        public ActionResult DescargarReporteAsignaciones(int? id)
+        {
+            try
+            {
+                //var asignaciones = ProyectoCN.ListarAsignaciones();
+
+                var rptH = new ReportClass();
+                rptH.FileName = Server.MapPath("/Reportes/AsignacionReport.rpt");
+                rptH.Load();
+
+                if(id == null)
+                    rptH.SetDataSource(ProyectoCN.ListarAsignaciones());
+                else
+                    rptH.SetDataSource(ProyectoCN.ListarAsignaciones(id.Value));
+
+                Response.Buffer = false;
+                Response.ClearContent();
+                Response.ClearHeaders();
+
+                //En PDF
+                Stream stream = rptH.ExportToStream(ExportFormatType.PortableDocFormat);
+                rptH.Dispose();
+                rptH.Close();
+                return new FileStreamResult(stream, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

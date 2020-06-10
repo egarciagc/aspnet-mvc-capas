@@ -125,6 +125,20 @@ namespace DATOS
             }
         }
 
+        public List<ProyectoEmpleadoCE> ListarAsignaciones(int proyectoId)
+        {
+            string sql = @"select pe.ProyectoId, p.NombreProyecto, pe.EmpleadoId, e.Apellidos, e.Nombres, pe.FechaAlta
+                 from ProyectoEmpleado pe
+                inner join Proyecto p on pe.ProyectoId = p.ProyectoId
+                inner join Empleado e on pe.EmpleadoId = e.EmpleadoId
+                where p.ProyectoId = @ProyectoId ";
+            using (var db = new ProyectosContext())
+            {
+                return db.Database.SqlQuery<ProyectoEmpleadoCE>(sql,
+                    new SqlParameter("@ProyectoId", proyectoId)).ToList();
+            }
+        }
+
         public void Eliminarasignacion(int proyectoId, int empleadoId)
         {
             using (var db = new ProyectosContext())

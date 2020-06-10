@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Reporte de Proyectos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<button class="btn btn-primary" onclick="Descargar()">
+    <i class="glyphicon glyphicon-download"></i> Descargar Reporte
+</button>
+
+@section scripts{
+    <script>
+        function Descargar() {
+            window.open("/proyecto/descargarreporteproyectos");
+        }
+    </script>
+}

@@ -22,6 +22,11 @@ namespace NEGOCIO
             return obj.ListarProyectos();
         }
 
+        public static List<ProyectoEmpleadoCE> ListarAsignaciones(int proyectoId)
+        {
+            return obj.ListarAsignaciones(proyectoId);
+        }
+
         public static Proyecto ObtenerProyecto(int id)
         {
             return obj.ObtenerProyecto(id);

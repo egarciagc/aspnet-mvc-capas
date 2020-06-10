@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Asignaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <br />
+    <div class="form-group">
+        <div class="col-md-6">
+            <label>Proyecto:</label>
+            <select class="form-control" id="ProyectoId">
+                <option value="">-- Todos --</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<br />
+<button class="btn btn-primary" onclick="Descargar()">
+    <i class="glyphicon glyphicon-download"></i> Descargar Reporte
+</button>
+
+<button class="btn btn-success" onclick="Mostrar()">
+    <i class="glyphicon glyphicon-eye-open"></i> Mostrar Reporte
+</button>
+
+<hr />
+
+<iframe id="frmAsignacion" width="100%" height="550px" frameborder="0" scrolling="no"></iframe>
+
+@section scripts{
+    <script>
+        ListarProyectos();
+
+        var proyecto = $("#ProyectoId");
+
+        function Descargar() {
+            window.open("/proyecto/DescargarReporteAsignaciones/" + proyecto.val());
+        }
+
+        function Mostrar() {
+            $("#frmAsignacion")
+                .attr("src", "/proyecto/DescargarReporteAsignaciones/" + proyecto.val())
+                .load();
+        }
+
+    </script>
+}
